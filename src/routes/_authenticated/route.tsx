@@ -1,7 +1,8 @@
 import { createFileRoute, Outlet, redirect, Link, useRouter } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { Home, Building2, Users, UserCheck, LogOut, Plus } from "lucide-react";
+import { Home, Building2, Users, UserCheck, LogOut, Plus, Bell } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useReminders } from "@/hooks/useReminders";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -16,6 +17,9 @@ export const Route = createFileRoute("/_authenticated")({
 function AuthedLayout() {
   const router = useRouter();
   const qc = useQueryClient();
+  useReminders(true);
+
+
 
   async function signOut() {
     await qc.cancelQueries();
@@ -52,11 +56,12 @@ function AuthedLayout() {
       </main>
 
       <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur">
-        <div className="mx-auto grid max-w-5xl grid-cols-4">
-          <NavItem to="/dashboard" icon={<Home className="h-5 w-5" />} label="الرئيسية" />
-          <NavItem to="/properties" icon={<Building2 className="h-5 w-5" />} label="العقارات" />
-          <NavItem to="/owners" icon={<UserCheck className="h-5 w-5" />} label="الملاك" />
-          <NavItem to="/customers" icon={<Users className="h-5 w-5" />} label="العملاء" />
+        <div className="mx-auto grid max-w-5xl grid-cols-5">
+          <NavItem to="/dashboard" icon={<Home className="h-4 w-4" />} label="الرئيسية" />
+          <NavItem to="/properties" icon={<Building2 className="h-4 w-4" />} label="العقارات" />
+          <NavItem to="/agenda" icon={<Bell className="h-4 w-4" />} label="الأجندة" />
+          <NavItem to="/owners" icon={<UserCheck className="h-4 w-4" />} label="الملاك" />
+          <NavItem to="/customers" icon={<Users className="h-4 w-4" />} label="العملاء" />
         </div>
       </nav>
     </div>

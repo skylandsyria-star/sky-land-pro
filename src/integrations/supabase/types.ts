@@ -14,6 +14,85 @@ export type Database = {
   }
   public: {
     Tables: {
+      agenda_items: {
+        Row: {
+          assigned_to: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          customer_id: string | null
+          description: string | null
+          due_at: string
+          id: string
+          kind: Database["public"]["Enums"]["agenda_kind"]
+          notified_at: string | null
+          owner_id: string | null
+          property_id: string | null
+          remind_at: string | null
+          status: Database["public"]["Enums"]["agenda_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string | null
+          description?: string | null
+          due_at: string
+          id?: string
+          kind?: Database["public"]["Enums"]["agenda_kind"]
+          notified_at?: string | null
+          owner_id?: string | null
+          property_id?: string | null
+          remind_at?: string | null
+          status?: Database["public"]["Enums"]["agenda_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string | null
+          description?: string | null
+          due_at?: string
+          id?: string
+          kind?: Database["public"]["Enums"]["agenda_kind"]
+          notified_at?: string | null
+          owner_id?: string | null
+          property_id?: string | null
+          remind_at?: string | null
+          status?: Database["public"]["Enums"]["agenda_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agenda_items_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_items_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "owners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_items_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customers: {
         Row: {
           area: string | null
@@ -276,6 +355,8 @@ export type Database = {
       }
     }
     Enums: {
+      agenda_kind: "appointment" | "task" | "follow_up" | "call" | "visit"
+      agenda_status: "pending" | "done" | "snoozed" | "cancelled"
       app_role: "admin" | "agent" | "photographer" | "staff" | "readonly"
     }
     CompositeTypes: {
@@ -404,6 +485,8 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      agenda_kind: ["appointment", "task", "follow_up", "call", "visit"],
+      agenda_status: ["pending", "done", "snoozed", "cancelled"],
       app_role: ["admin", "agent", "photographer", "staff", "readonly"],
     },
   },

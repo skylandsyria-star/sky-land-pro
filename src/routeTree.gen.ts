@@ -16,12 +16,14 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedPropertiesIndexRouteImport } from './routes/_authenticated/properties.index'
 import { Route as AuthenticatedOwnersIndexRouteImport } from './routes/_authenticated/owners.index'
 import { Route as AuthenticatedCustomersIndexRouteImport } from './routes/_authenticated/customers.index'
+import { Route as AuthenticatedAgendaIndexRouteImport } from './routes/_authenticated/agenda.index'
 import { Route as AuthenticatedPropertiesNewRouteImport } from './routes/_authenticated/properties.new'
 import { Route as AuthenticatedPropertiesIdRouteImport } from './routes/_authenticated/properties.$id'
 import { Route as AuthenticatedOwnersNewRouteImport } from './routes/_authenticated/owners.new'
 import { Route as AuthenticatedOwnersIdRouteImport } from './routes/_authenticated/owners.$id'
 import { Route as AuthenticatedCustomersNewRouteImport } from './routes/_authenticated/customers.new'
 import { Route as AuthenticatedCustomersIdRouteImport } from './routes/_authenticated/customers.$id'
+import { Route as AuthenticatedAgendaNewRouteImport } from './routes/_authenticated/agenda.new'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -60,6 +62,12 @@ const AuthenticatedCustomersIndexRoute =
     path: '/customers/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAgendaIndexRoute =
+  AuthenticatedAgendaIndexRouteImport.update({
+    id: '/agenda/',
+    path: '/agenda/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPropertiesNewRoute =
   AuthenticatedPropertiesNewRouteImport.update({
     id: '/properties/new',
@@ -94,17 +102,24 @@ const AuthenticatedCustomersIdRoute =
     path: '/customers/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAgendaNewRoute = AuthenticatedAgendaNewRouteImport.update({
+  id: '/agenda/new',
+  path: '/agenda/new',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/agenda/new': typeof AuthenticatedAgendaNewRoute
   '/customers/$id': typeof AuthenticatedCustomersIdRoute
   '/customers/new': typeof AuthenticatedCustomersNewRoute
   '/owners/$id': typeof AuthenticatedOwnersIdRoute
   '/owners/new': typeof AuthenticatedOwnersNewRoute
   '/properties/$id': typeof AuthenticatedPropertiesIdRoute
   '/properties/new': typeof AuthenticatedPropertiesNewRoute
+  '/agenda/': typeof AuthenticatedAgendaIndexRoute
   '/customers/': typeof AuthenticatedCustomersIndexRoute
   '/owners/': typeof AuthenticatedOwnersIndexRoute
   '/properties/': typeof AuthenticatedPropertiesIndexRoute
@@ -113,12 +128,14 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/agenda/new': typeof AuthenticatedAgendaNewRoute
   '/customers/$id': typeof AuthenticatedCustomersIdRoute
   '/customers/new': typeof AuthenticatedCustomersNewRoute
   '/owners/$id': typeof AuthenticatedOwnersIdRoute
   '/owners/new': typeof AuthenticatedOwnersNewRoute
   '/properties/$id': typeof AuthenticatedPropertiesIdRoute
   '/properties/new': typeof AuthenticatedPropertiesNewRoute
+  '/agenda': typeof AuthenticatedAgendaIndexRoute
   '/customers': typeof AuthenticatedCustomersIndexRoute
   '/owners': typeof AuthenticatedOwnersIndexRoute
   '/properties': typeof AuthenticatedPropertiesIndexRoute
@@ -129,12 +146,14 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/agenda/new': typeof AuthenticatedAgendaNewRoute
   '/_authenticated/customers/$id': typeof AuthenticatedCustomersIdRoute
   '/_authenticated/customers/new': typeof AuthenticatedCustomersNewRoute
   '/_authenticated/owners/$id': typeof AuthenticatedOwnersIdRoute
   '/_authenticated/owners/new': typeof AuthenticatedOwnersNewRoute
   '/_authenticated/properties/$id': typeof AuthenticatedPropertiesIdRoute
   '/_authenticated/properties/new': typeof AuthenticatedPropertiesNewRoute
+  '/_authenticated/agenda/': typeof AuthenticatedAgendaIndexRoute
   '/_authenticated/customers/': typeof AuthenticatedCustomersIndexRoute
   '/_authenticated/owners/': typeof AuthenticatedOwnersIndexRoute
   '/_authenticated/properties/': typeof AuthenticatedPropertiesIndexRoute
@@ -145,12 +164,14 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
+    | '/agenda/new'
     | '/customers/$id'
     | '/customers/new'
     | '/owners/$id'
     | '/owners/new'
     | '/properties/$id'
     | '/properties/new'
+    | '/agenda/'
     | '/customers/'
     | '/owners/'
     | '/properties/'
@@ -159,12 +180,14 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
+    | '/agenda/new'
     | '/customers/$id'
     | '/customers/new'
     | '/owners/$id'
     | '/owners/new'
     | '/properties/$id'
     | '/properties/new'
+    | '/agenda'
     | '/customers'
     | '/owners'
     | '/properties'
@@ -174,12 +197,14 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/dashboard'
+    | '/_authenticated/agenda/new'
     | '/_authenticated/customers/$id'
     | '/_authenticated/customers/new'
     | '/_authenticated/owners/$id'
     | '/_authenticated/owners/new'
     | '/_authenticated/properties/$id'
     | '/_authenticated/properties/new'
+    | '/_authenticated/agenda/'
     | '/_authenticated/customers/'
     | '/_authenticated/owners/'
     | '/_authenticated/properties/'
@@ -242,6 +267,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCustomersIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/agenda/': {
+      id: '/_authenticated/agenda/'
+      path: '/agenda'
+      fullPath: '/agenda/'
+      preLoaderRoute: typeof AuthenticatedAgendaIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/properties/new': {
       id: '/_authenticated/properties/new'
       path: '/properties/new'
@@ -284,17 +316,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCustomersIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/agenda/new': {
+      id: '/_authenticated/agenda/new'
+      path: '/agenda/new'
+      fullPath: '/agenda/new'
+      preLoaderRoute: typeof AuthenticatedAgendaNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedAgendaNewRoute: typeof AuthenticatedAgendaNewRoute
   AuthenticatedCustomersIdRoute: typeof AuthenticatedCustomersIdRoute
   AuthenticatedCustomersNewRoute: typeof AuthenticatedCustomersNewRoute
   AuthenticatedOwnersIdRoute: typeof AuthenticatedOwnersIdRoute
   AuthenticatedOwnersNewRoute: typeof AuthenticatedOwnersNewRoute
   AuthenticatedPropertiesIdRoute: typeof AuthenticatedPropertiesIdRoute
   AuthenticatedPropertiesNewRoute: typeof AuthenticatedPropertiesNewRoute
+  AuthenticatedAgendaIndexRoute: typeof AuthenticatedAgendaIndexRoute
   AuthenticatedCustomersIndexRoute: typeof AuthenticatedCustomersIndexRoute
   AuthenticatedOwnersIndexRoute: typeof AuthenticatedOwnersIndexRoute
   AuthenticatedPropertiesIndexRoute: typeof AuthenticatedPropertiesIndexRoute
@@ -302,12 +343,14 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedAgendaNewRoute: AuthenticatedAgendaNewRoute,
   AuthenticatedCustomersIdRoute: AuthenticatedCustomersIdRoute,
   AuthenticatedCustomersNewRoute: AuthenticatedCustomersNewRoute,
   AuthenticatedOwnersIdRoute: AuthenticatedOwnersIdRoute,
   AuthenticatedOwnersNewRoute: AuthenticatedOwnersNewRoute,
   AuthenticatedPropertiesIdRoute: AuthenticatedPropertiesIdRoute,
   AuthenticatedPropertiesNewRoute: AuthenticatedPropertiesNewRoute,
+  AuthenticatedAgendaIndexRoute: AuthenticatedAgendaIndexRoute,
   AuthenticatedCustomersIndexRoute: AuthenticatedCustomersIndexRoute,
   AuthenticatedOwnersIndexRoute: AuthenticatedOwnersIndexRoute,
   AuthenticatedPropertiesIndexRoute: AuthenticatedPropertiesIndexRoute,
