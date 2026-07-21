@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { startRingtone, stopRingtone } from "@/lib/ringtone";
 
 const POLL_MS = 30_000;
 
