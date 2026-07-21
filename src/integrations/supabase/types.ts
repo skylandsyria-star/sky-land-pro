@@ -14,16 +14,269 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      customers: {
+        Row: {
+          area: string | null
+          city: string | null
+          created_at: string
+          created_by: string | null
+          currency: string | null
+          desired_property_type: string | null
+          full_name: string
+          id: string
+          max_budget: number | null
+          min_bedrooms: number | null
+          min_budget: number | null
+          notes: string | null
+          phone: string
+          request_type: string
+          status: string
+          updated_at: string
+          urgency: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          area?: string | null
+          city?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string | null
+          desired_property_type?: string | null
+          full_name: string
+          id?: string
+          max_budget?: number | null
+          min_bedrooms?: number | null
+          min_budget?: number | null
+          notes?: string | null
+          phone: string
+          request_type?: string
+          status?: string
+          updated_at?: string
+          urgency?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          area?: string | null
+          city?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string | null
+          desired_property_type?: string | null
+          full_name?: string
+          id?: string
+          max_budget?: number | null
+          min_bedrooms?: number | null
+          min_budget?: number | null
+          notes?: string | null
+          phone?: string
+          request_type?: string
+          status?: string
+          updated_at?: string
+          urgency?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      owners: {
+        Row: {
+          address: string | null
+          area: string | null
+          city: string | null
+          created_at: string
+          created_by: string | null
+          full_name: string
+          id: string
+          notes: string | null
+          phone: string
+          secondary_phone: string | null
+          source: string | null
+          status: string
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          address?: string | null
+          area?: string | null
+          city?: string | null
+          created_at?: string
+          created_by?: string | null
+          full_name: string
+          id?: string
+          notes?: string | null
+          phone: string
+          secondary_phone?: string | null
+          source?: string | null
+          status?: string
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          address?: string | null
+          area?: string | null
+          city?: string | null
+          created_at?: string
+          created_by?: string | null
+          full_name?: string
+          id?: string
+          notes?: string | null
+          phone?: string
+          secondary_phone?: string | null
+          source?: string | null
+          status?: string
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          address: string | null
+          area: string | null
+          bathrooms: number | null
+          bedrooms: number | null
+          city: string | null
+          created_at: string
+          created_by: string | null
+          currency: string | null
+          description: string | null
+          elevator: boolean | null
+          floor: number | null
+          furnished: boolean | null
+          id: string
+          notes: string | null
+          owner_id: string | null
+          parking: boolean | null
+          price: number | null
+          property_type: string
+          purpose: string
+          reference_code: string | null
+          status: string
+          title: string
+          total_area: number | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          area?: string | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string | null
+          description?: string | null
+          elevator?: boolean | null
+          floor?: number | null
+          furnished?: boolean | null
+          id?: string
+          notes?: string | null
+          owner_id?: string | null
+          parking?: boolean | null
+          price?: number | null
+          property_type?: string
+          purpose?: string
+          reference_code?: string | null
+          status?: string
+          title: string
+          total_area?: number | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          area?: string | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string | null
+          description?: string | null
+          elevator?: boolean | null
+          floor?: number | null
+          furnished?: boolean | null
+          id?: string
+          notes?: string | null
+          owner_id?: string | null
+          parking?: boolean | null
+          price?: number | null
+          property_type?: string
+          purpose?: string
+          reference_code?: string | null
+          status?: string
+          title?: string
+          total_area?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "properties_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "owners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "agent" | "photographer" | "staff" | "readonly"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +403,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "agent", "photographer", "staff", "readonly"],
+    },
   },
 } as const
