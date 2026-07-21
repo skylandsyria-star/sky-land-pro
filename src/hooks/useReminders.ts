@@ -55,17 +55,22 @@ function fireNotification(title: string, body: string) {
         tag: title,
         requireInteraction: true,
       });
-      n.onclick = () => { window.focus(); n.close(); };
+      n.onclick = () => { window.focus(); stopRingtone(); n.close(); };
     }
   } catch {
     // ignore
   }
   try {
-    if ("vibrate" in navigator) navigator.vibrate([300, 150, 300]);
+    if ("vibrate" in navigator) navigator.vibrate([600, 200, 600, 200, 600, 200, 600]);
   } catch {
     // ignore
   }
-  toast.warning(`🔔 ${title}`, { description: body, duration: 15_000 });
+  startRingtone(30);
+  toast.warning(`🔔 ${title}`, {
+    description: body,
+    duration: 30_000,
+    action: { label: "إيقاف", onClick: () => stopRingtone() },
+  });
 }
 
 export function kindLabel(kind: string) {
