@@ -1,0 +1,15 @@
+{
+  "name": "Sky Land — سكاي لاند",
+  "short_name": "Sky Land",
+  "description": "إدارة العقارات والعملاء لمكتب سكاي لاند",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F6F7F9",
+  "theme_color": "#FF8A00",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon" }
+  ]
+}
