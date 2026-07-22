@@ -183,6 +183,13 @@ function NewProp() {
           <textarea rows={2} className="inp" value={form.notes} onChange={(e) => upd("notes", e.target.value)} />
         </F>
 
+        <div>
+          <div className="mb-1 text-xs font-semibold">الصور والفيديوهات</div>
+          <MediaUploader value={media} onChange={setMedia} folder="new" />
+        </div>
+
+
+
         <div className="flex gap-2 pt-2">
           <button type="button" onClick={() => router.history.back()} className="flex-1 rounded-xl border border-border py-3 text-sm font-semibold">
             إلغاء
