@@ -42,6 +42,7 @@ function NewProp() {
     notes: "",
   });
   const [loading, setLoading] = useState(false);
+  const [media, setMedia] = useState<MediaItem[]>([]);
 
   const owners = useQuery({
     queryKey: ["owners-select"],
@@ -70,6 +71,7 @@ function NewProp() {
         bedrooms: form.bedrooms ? Number(form.bedrooms) : null,
         bathrooms: form.bathrooms ? Number(form.bathrooms) : null,
         floor: form.floor ? Number(form.floor) : null,
+        media,
       };
       const { data, error } = await supabase.from("properties").insert(payload).select("id").single();
       if (error) throw error;
