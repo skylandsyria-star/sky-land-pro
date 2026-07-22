@@ -118,7 +118,7 @@ function AgendaPage() {
                   {it.description && <div className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">{it.description}</div>}
                   <div className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground">
                     <Clock className="h-3 w-3" />
-                    <span dir="ltr">{due.toLocaleString("ar-EG", { dateStyle: "medium", hour: "numeric", minute: "2-digit", hour12: true })}</span>
+                    <span dir="ltr">{due.toLocaleDateString("ar-EG", { dateStyle: "medium" })} {due.toLocaleTimeString("ar-EG", { hour: "numeric", minute: "2-digit", hour12: true })}</span>
                   </div>
                 </div>
               </div>
