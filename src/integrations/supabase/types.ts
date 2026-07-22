@@ -246,6 +246,7 @@ export type Database = {
           floor: number | null
           furnished: boolean | null
           id: string
+          media: Json
           notes: string | null
           owner_id: string | null
           parking: boolean | null
@@ -272,6 +273,7 @@ export type Database = {
           floor?: number | null
           furnished?: boolean | null
           id?: string
+          media?: Json
           notes?: string | null
           owner_id?: string | null
           parking?: boolean | null
@@ -298,6 +300,7 @@ export type Database = {
           floor?: number | null
           furnished?: boolean | null
           id?: string
+          media?: Json
           notes?: string | null
           owner_id?: string | null
           parking?: boolean | null

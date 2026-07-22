@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { ContactButtons } from "@/components/ContactButtons";
 import { formatPrice } from "@/lib/contact";
 import { toast } from "sonner";
-import { Trash2, ArrowRight } from "lucide-react";
+import { Trash2, ArrowRight, Pencil } from "lucide-react";
+import { MediaGallery, type MediaItem } from "@/components/MediaUploader";
 
 export const Route = createFileRoute("/_authenticated/properties/$id")({
   head: () => ({
@@ -76,6 +77,13 @@ function Detail() {
         </div>
       </div>
 
+      {Array.isArray(p.media) && p.media.length > 0 && (
+        <div className="card-elevated p-4">
+          <div className="mb-2 text-xs font-bold text-muted-foreground">الصور والفيديوهات</div>
+          <MediaGallery items={p.media as MediaItem[]} />
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-3 text-xs">
         <Fact label="المساحة" value={p.total_area ? `${p.total_area} م²` : "—"} />
         <Fact label="غرف النوم" value={p.bedrooms ?? "—"} />
@@ -112,9 +120,14 @@ function Detail() {
         </div>
       )}
 
-      <button onClick={del} className="inline-flex items-center gap-1 rounded-lg border border-destructive/40 px-3 py-2 text-xs font-semibold text-destructive">
-        <Trash2 className="h-4 w-4" /> حذف العقار
-      </button>
+      <div className="flex gap-2">
+        <Link to="/properties/$id/edit" params={{ id }} className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-primary px-3 py-2 text-xs font-bold text-primary-foreground">
+          <Pencil className="h-4 w-4" /> تعديل العقار
+        </Link>
+        <button onClick={del} className="inline-flex items-center gap-1 rounded-lg border border-destructive/40 px-3 py-2 text-xs font-semibold text-destructive">
+          <Trash2 className="h-4 w-4" /> حذف
+        </button>
+      </div>
     </div>
   );
 }

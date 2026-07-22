@@ -1,5 +1,5 @@
 // Loud looping ringtone via Web Audio API — no external asset needed.
-// Emits a classic two-tone phone ring pattern and repeats until stop() is called.
+// Emits a harsh multi-tone alarm ring and repeats until stop() is called.
 
 let ctx: AudioContext | null = null;
 let stopFn: (() => void) | null = null;
@@ -20,23 +20,51 @@ function getCtx(): AudioContext | null {
 }
 
 function playRingBurst(ac: AudioContext, startAt: number, durationSec = 1.4): void {
-  // Two sine oscillators mixed (440 + 480 Hz) — telephone-like ring
+  // Master gain — loud but avoid clipping
   const master = ac.createGain();
   master.gain.setValueAtTime(0, startAt);
-  master.gain.linearRampToValueAtTime(1.0, startAt + 0.05);
-  master.gain.setValueAtTime(1.0, startAt + durationSec - 0.1);
+  master.gain.linearRampToValueAtTime(1.0, startAt + 0.03);
+  master.gain.setValueAtTime(1.0, startAt + durationSec - 0.08);
   master.gain.linearRampToValueAtTime(0, startAt + durationSec);
-  master.connect(ac.destination);
 
-  for (const freq of [440, 480, 620]) {
+  // Soft-clip compressor for perceived loudness
+  const comp = ac.createDynamicsCompressor();
+  comp.threshold.value = -12;
+  comp.knee.value = 6;
+  comp.ratio.value = 12;
+  comp.attack.value = 0.003;
+  comp.release.value = 0.2;
+
+  master.connect(comp).connect(ac.destination);
+
+  // Rich alarm-like stack: telephone tones + higher square wave for harshness
+  const voices: Array<{ freq: number; type: OscillatorType; gain: number }> = [
+    { freq: 440, type: "sine", gain: 0.6 },
+    { freq: 480, type: "sine", gain: 0.6 },
+    { freq: 620, type: "sine", gain: 0.5 },
+    { freq: 880, type: "square", gain: 0.35 },
+    { freq: 1320, type: "square", gain: 0.25 },
+    { freq: 220, type: "triangle", gain: 0.5 },
+  ];
+
+  for (const v of voices) {
     const o = ac.createOscillator();
-    o.type = "sine";
-    o.frequency.value = freq;
+    o.type = v.type;
+    o.frequency.value = v.freq;
+    // Subtle vibrato for attention
+    const lfo = ac.createOscillator();
+    lfo.frequency.value = 7;
+    const lfoGain = ac.createGain();
+    lfoGain.gain.value = v.freq * 0.01;
+    lfo.connect(lfoGain).connect(o.frequency);
+
     const g = ac.createGain();
-    g.gain.value = 0.35;
+    g.gain.value = v.gain;
     o.connect(g).connect(master);
     o.start(startAt);
+    lfo.start(startAt);
     o.stop(startAt + durationSec);
+    lfo.stop(startAt + durationSec);
   }
 }
 
@@ -52,14 +80,17 @@ export function startRingtone(maxSeconds = 30): void {
   function scheduleLoop() {
     if (cancelled) return;
     const now = ac!.currentTime;
-    // Pattern: ring 1.4s, pause 0.4s, ring 1.4s, pause 2.8s = ~6s cycle
     let t = now;
-    while (t < now + 4 && t < endAt) {
-      playRingBurst(ac!, t, 1.4);
-      t += 1.4 + 0.4;
+    // Alarm pattern: 3 quick rings then short pause, repeat
+    while (t < now + 5 && t < endAt) {
+      playRingBurst(ac!, t, 1.2);
+      t += 1.2 + 0.25;
       if (t >= endAt) break;
-      playRingBurst(ac!, t, 1.4);
-      t += 1.4 + 2.8;
+      playRingBurst(ac!, t, 1.2);
+      t += 1.2 + 0.25;
+      if (t >= endAt) break;
+      playRingBurst(ac!, t, 1.2);
+      t += 1.2 + 1.5;
     }
   }
 
@@ -70,14 +101,12 @@ export function startRingtone(maxSeconds = 30): void {
       return;
     }
     scheduleLoop();
-  }, 3500);
+  }, 4000);
 
   stopFn = () => {
     cancelled = true;
     window.clearInterval(interval);
     try {
-      // Fade out master by muting destination via short gain node isn't trivial here;
-      // easiest: close and recreate on next start
       ac.close().catch(() => {});
     } catch {
       // ignore
