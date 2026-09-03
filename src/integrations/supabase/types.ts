@@ -237,6 +237,7 @@ export type Database = {
           area: string | null
           bathrooms: number | null
           bedrooms: number | null
+          category_id: string | null
           city: string | null
           created_at: string
           created_by: string | null
@@ -250,6 +251,7 @@ export type Database = {
           notes: string | null
           owner_id: string | null
           parking: boolean | null
+          pipeline_status: string
           price: number | null
           property_type: string
           purpose: string
@@ -264,6 +266,7 @@ export type Database = {
           area?: string | null
           bathrooms?: number | null
           bedrooms?: number | null
+          category_id?: string | null
           city?: string | null
           created_at?: string
           created_by?: string | null
@@ -277,6 +280,7 @@ export type Database = {
           notes?: string | null
           owner_id?: string | null
           parking?: boolean | null
+          pipeline_status?: string
           price?: number | null
           property_type?: string
           purpose?: string
@@ -291,6 +295,7 @@ export type Database = {
           area?: string | null
           bathrooms?: number | null
           bedrooms?: number | null
+          category_id?: string | null
           city?: string | null
           created_at?: string
           created_by?: string | null
@@ -304,6 +309,7 @@ export type Database = {
           notes?: string | null
           owner_id?: string | null
           parking?: boolean | null
+          pipeline_status?: string
           price?: number | null
           property_type?: string
           purpose?: string
@@ -315,6 +321,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "properties_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "property_categories"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "properties_owner_id_fkey"
             columns: ["owner_id"]
             isOneToOne: false
@@ -322,6 +335,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      property_categories: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          slug: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          slug?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          slug?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       user_roles: {
         Row: {
