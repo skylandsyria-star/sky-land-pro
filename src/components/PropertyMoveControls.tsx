@@ -32,7 +32,7 @@ export function PropertyMoveControls({
   const refresh = useRefreshProperties();
   const [busy, setBusy] = useState(false);
 
-  async function update(patch: Record<string, any>, msg: string) {
+  async function update(patch: { category_id?: string | null; pipeline_status?: string }, msg: string) {
     setBusy(true);
     const { error } = await supabase.from("properties").update(patch).eq("id", propertyId);
     setBusy(false);
